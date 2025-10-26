@@ -1,0 +1,48 @@
+cabal-version:      3.0
+name:               underloadedStrings
+version:            0.1.0.0
+synopsis:
+    Useful functions if you are not using the OverloadedStrings Pragma
+
+-- description:
+homepage:           https://github.com/cookEbox/underloadedStrings
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Nick Cooke
+maintainer:         nj.cooke@outlook.com
+-- copyright:
+category:           Control
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    exposed-modules:  Underloaded.Strings
+    -- other-modules:
+    -- other-extensions:
+    build-depends:      
+        base >= 4.19 && < 4.21
+      , aeson
+      , case-insensitive 
+      , containers 
+      , time
+      , bytestring
+      , text
+      , http-types
+    hs-source-dirs:   src
+    default-language: GHC2024
+
+test-suite test
+    import:           warnings
+    default-language: GHC2024
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Main.hs
+    build-depends:
+        base >= 4.19 && < 4.21
+      , underloadedStrings 
+      , doctest

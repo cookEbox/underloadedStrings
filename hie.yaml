@@ -1,0 +1,7 @@
+cradle:
+  cabal:
+    - path: .
+      component: lib:underloadedStrings
+
+    - path: ./test
+      component: test:test
