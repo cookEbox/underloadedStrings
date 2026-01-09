@@ -39,6 +39,11 @@ module Underloaded.Strings
   , lt    -- ^ 'String' → lazy   'LazyText'
   , b     -- ^ 'String' → strict 'ByteString' (Char8 / byte-wise)
   , lb    -- ^ 'String' → lazy   'LazyByteString' (Char8 / byte-wise)
+  , ci 
+  , cib 
+  , cilb 
+  , cit 
+  , cilt
 
     -- * “Apply-with-conversion” operators
     -- |
@@ -66,6 +71,8 @@ import           Data.Text             (Text)
 import qualified Data.Text             as T
 import qualified Data.Text.Lazy        as TL
 import           Data.Text.Encoding    (decodeUtf8, encodeUtf8)
+import qualified Data.CaseInsensitive  as CI     
+import Data.CaseInsensitive (FoldCase)
 
 -- | Lazy 'Text' alias, re-exported as 'LazyText'.
 type LazyText = TL.Text
@@ -103,6 +110,21 @@ b = B8.pack
 lb :: String -> LazyByteString
 lb = LBS.fromStrict . B8.pack
 
+ci :: forall a. FoldCase a => a -> CI.CI a
+ci = CI.mk
+
+cib :: String -> CI.CI ByteString
+cib = ci . b
+
+cilb :: String -> CI.CI LazyByteString
+cilb = ci . lb 
+
+cit :: String -> CI.CI Text
+cit = ci . t 
+
+cilt :: String -> CI.CI LazyText
+cilt = ci . lt
+
 -- --------------------------------------------------------------------------
 -- Apply-with-conversion operators
 -- --------------------------------------------------------------------------
@@ -111,7 +133,7 @@ lb = LBS.fromStrict . B8.pack
 --
 -- >>> T.length # "hello"
 -- 5
-infixr 0 #, ~#, &, ~&
+infixr 9 #, ~#, &, ~&
 (#) :: (Text -> b) -> String -> b
 (#) f s = f (t s)
 
